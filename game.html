@@ -99,8 +99,11 @@ function createCard(text, type, match) {
         document.getElementById("message").textContent = "Correct.";
 
         if (score === pairs.length) {
-          document.getElementById("message").textContent = "Perfect score. You matched all actuarial notations.";
-        }
+  document.getElementById("message").innerHTML =
+    "🎉 Perfect score!<br><br>" +
+    "Congratulations! You are now actuarially certified*<br>" +
+    "<small>*Not legally recognized by the SOA.</small>";
+}
       } else {
         document.getElementById("message").textContent = "Not quite. Try again.";
       }
