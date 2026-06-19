@@ -3,13 +3,7 @@
 <head>
   <title>Actuarial Notation Game - Yasintorn Wongwoottisaroch</title>
   <link rel="stylesheet" href="style.css">
-  <meta charset="UTF-8">
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }
-    };
-  </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+ 
 </head>
 <body>
 
@@ -62,7 +56,7 @@ const pairs = [
   { symbol: "eₓ", definition: "Complete expectation of life" },
   { symbol: "ₙEₓ", definition: "Pure endowment" },
   { symbol: "Āₓ", definition: "Continuous whole life insurance" },
-  { symbol: "\(\ddot{a}_{x:\overline{n}|}\)", definition: "Temporary n-year annuity-due" },
+ { symbol: "\\(\\ddot{a}_{x:\\overline{n}|}\\)", definition: "Temporary n-year annuity-due" },
   { symbol: "ₙqₓ", definition: "Probability of death within n years" }
 ];
 
@@ -76,7 +70,7 @@ function shuffle(array) {
 function createCard(text, type, match) {
   const card = document.createElement("button");
   card.className = "game-card";
-  card.textContent = text;
+  card.innerHTML = text;
   card.dataset.match = match;
   card.dataset.type = type;
 
@@ -133,7 +127,18 @@ function loadGame() {
   shuffle([...pairs]).forEach(pair => {
     definitionsDiv.appendChild(createCard(pair.definition, "definition", pair.definition));
   });
+
+  if (window.MathJax) {
+    MathJax.typesetPromise();
+  }
 }
+   <meta charset="UTF-8">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 function resetGame() {
   score = 0;
