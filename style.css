@@ -1,44 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Yasintorn Wongwoottisaroch</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+body {
+  font-family: Georgia, serif;
+  margin: 0;
+  color: #333;
+}
 
-<nav>
-  <strong>Yasintorn Wongwoottisaroch</strong>
-  <a href="index.html">Home</a>
-  <a href="#">CV</a>
-  <a href="#">Research</a>
-  <a href="#">Teaching</a>
-  <a href="#">Blog</a>
-</nav>
+nav {
+  padding: 30px 10%;
+  border-bottom: 1px solid #eee;
+}
 
-<main>
-  <aside>
-    <img src="Headshot_2026.jpg" alt="Yasintorn photo">
-    <h2>Yasintorn Wongwoottisaroch</h2>
-    <p>ASA<br>PhD Candidate<br>University of Illinois Urbana-Champaign</p>
-    <p>📍 Champaign, IL / Thailand</p>
-    <p>✉️ Email</p>
-  </aside>
+nav strong {
+  margin-right: 60px;
+  font-family: Arial, sans-serif;
+}
 
-  <section>
-    <h1>Welcome</h1>
-    <p>
-      Hi there! My name is Yasintorn Wongwoottisaroch. I am a PhD candidate in Actuarial Science / Mathematics at the University of Illinois Urbana-Champaign.
-    </p>
+nav a {
+  margin-right: 30px;
+  text-decoration: none;
+  color: #666;
+  font-family: Arial, sans-serif;
+}
 
-    <p>
-      My research interests include weather derivatives, carbon credit markets, stochastic modeling, risk management, and actuarial science.
-    </p>
+main {
+  display: flex;
+  gap: 80px;
+  max-width: 1100px;
+  margin: 50px auto;
+}
 
-    <p>
-      This website collects my research, teaching, presentations, and personal writing.
-    </p>
-  </section>
-</main>
+aside {
+  width: 260px;
+  font-family: Arial, sans-serif;
+}
 
-</body>
-</html>
+aside img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+section {
+  flex: 1;
+  font-size: 20px;
+  line-height: 1.7;
+}
