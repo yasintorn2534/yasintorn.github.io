@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Yasintorn Wongwoottisaroch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <strong>Yasintorn Wongwoottisaroch</strong>
+  <a href="index.html">Home</a>
+  <a href="#">CV</a>
+  <a href="#">Research</a>
+  <a href="#">Teaching</a>
+  <a href="#">Blog</a>
+</nav>
+
+<main>
+  <aside>
+    <img src="profile.jpg" alt="Yasintorn photo">
+    <h2>Yasintorn Wongwoottisaroch</h2>
+    <p>ASA<br>PhD Candidate<br>University of Illinois Urbana-Champaign</p>
+    <p>📍 Champaign, IL / Thailand</p>
+    <p>✉️ Email</p>
+  </aside>
+
+  <section>
+    <h1>Welcome</h1>
+    <p>
+      Hi there! My name is Yasintorn Wongwoottisaroch. I am a PhD candidate in Actuarial Science / Mathematics at the University of Illinois Urbana-Champaign.
+    </p>
+
+    <p>
+      My research interests include weather derivatives, carbon credit markets, stochastic modeling, risk management, and actuarial science.
+    </p>
+
+    <p>
+      This website collects my research, teaching, presentations, and personal writing.
+    </p>
+  </section>
+</main>
+
+</body>
+</html>
