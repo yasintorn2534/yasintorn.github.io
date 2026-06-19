@@ -3,6 +3,13 @@
 <head>
   <title>Actuarial Notation Game - Yasintorn Wongwoottisaroch</title>
   <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
@@ -55,7 +62,7 @@ const pairs = [
   { symbol: "eₓ", definition: "Complete expectation of life" },
   { symbol: "ₙEₓ", definition: "Pure endowment" },
   { symbol: "Āₓ", definition: "Continuous whole life insurance" },
-  { symbol: "äₓ:ₙ", definition: "n-year annuity-due" },
+  { symbol: "\(\ddot{a}_{x:\overline{n}|}\)", definition: "Temporary n-year annuity-due" },
   { symbol: "ₙqₓ", definition: "Probability of death within n years" }
 ];
 
