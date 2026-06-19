@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Actuarial Notation Game - Yasintorn Wongwoottisaroch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <strong>Yasintorn Wongwoottisaroch</strong>
+  <a href="/">Home</a>
+  <a href="cv.html">CV</a>
+  <a href="research.html">Research</a>
+  <a href="teaching.html">Teaching</a>
+  <a href="blog.html">Blog</a>
+  <a href="game.html">Game</a>
+</nav>
+
+<main>
+  <aside>
+    <img src="profile.jpg" alt="Yasintorn photo">
+    <h2>Yasintorn Wongwoottisaroch</h2>
+    <p>ASA<br>PhD Candidate<br>University of Illinois Urbana-Champaign</p>
+    <p>
+      ✉️ <a href="mailto:yw60@illinois.edu">Email</a><br>
+      🔗 <a href="https://www.linkedin.com/in/yasintorn-wongwoottisaroch-asa-2450071b2/" target="_blank">LinkedIn</a><br>
+      🏛️ <a href="https://asrm.illinois.edu/directory/profile/yw60" target="_blank">UIUC ASRM Profile</a>
+    </p>
+  </aside>
+
+  <section>
+    <h1>Actuarial Notation Matching Game</h1>
+    <p>Click one notation, then click its matching definition.</p>
+
+    <p><strong>Score:</strong> <span id="score">0</span>/10</p>
+
+    <h2>Notation</h2>
+    <div id="symbols" class="game-grid"></div>
+
+    <h2>Definitions</h2>
+    <div id="definitions" class="game-grid"></div>
+
+    <p id="message"></p>
+    <button onclick="resetGame()">Reset Game</button>
+  </section>
+</main>
+
+<script>
+const pairs = [
+  { symbol: "Aₓ", definition: "Present value of whole life insurance" },
+  { symbol: "äₓ", definition: "Present value of whole life annuity-due" },
+  { symbol: "qₓ", definition: "Probability of death within one year" },
+  { symbol: "pₓ", definition: "Probability of survival for one year" },
+  { symbol: "v", definition: "Discount factor" },
+  { symbol: "eₓ", definition: "Complete expectation of life" },
+  { symbol: "ₙEₓ", definition: "Pure endowment" },
+  { symbol: "Āₓ", definition: "Continuous whole life insurance" },
+  { symbol: "äₓ:ₙ", definition: "n-year annuity-due" },
+  { symbol: "ₙqₓ", definition: "Probability of death within n years" }
+];
+
+let selectedSymbol = null;
+let score = 0;
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+function createCard(text, type, match) {
+  const card = document.createElement("button");
+  card.className = "game-card";
+  card.textContent = text;
+  card.dataset.match = match;
+  card.dataset.type = type;
+
+  card.onclick = function () {
+    if (card.classList.contains("matched")) return;
+
+    if (type === "symbol") {
+      selectedSymbol = card;
+      document.querySelectorAll(".game-card").forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
+      document.getElementById("message").textContent = "Now choose the matching definition.";
+    } else {
+      if (!selectedSymbol) {
+        document.getElementById("message").textContent = "Choose a notation first.";
+        return;
+      }
+
+      if (selectedSymbol.dataset.match === card.dataset.match) {
+        selectedSymbol.classList.add("matched");
+        card.classList.add("matched");
+        selectedSymbol.disabled = true;
+        card.disabled = true;
+        selectedSymbol.classList.remove("selected");
+        selectedSymbol = null;
+        score++;
+        document.getElementById("score").textContent = score;
+        document.getElementById("message").textContent = "Correct.";
+
+        if (score === pairs.length) {
+          document.getElementById("message").textContent = "Perfect score. You matched all actuarial notations.";
+        }
+      } else {
+        document.getElementById("message").textContent = "Not quite. Try again.";
+      }
+    }
+  };
+
+  return card;
+}
+
+function loadGame() {
+  const symbolsDiv = document.getElementById("symbols");
+  const definitionsDiv = document.getElementById("definitions");
+  symbolsDiv.innerHTML = "";
+  definitionsDiv.innerHTML = "";
+
+  shuffle([...pairs]).forEach(pair => {
+    symbolsDiv.appendChild(createCard(pair.symbol, "symbol", pair.definition));
+  });
+
+  shuffle([...pairs]).forEach(pair => {
+    definitionsDiv.appendChild(createCard(pair.definition, "definition", pair.definition));
+  });
+}
+
+function resetGame() {
+  score = 0;
+  selectedSymbol = null;
+  document.getElementById("score").textContent = score;
+  document.getElementById("message").textContent = "";
+  loadGame();
+}
+
+loadGame();
+</script>
+
+</body>
+</html>
