@@ -3,8 +3,16 @@
 <head>
   <title>Actuarial Notation Game - Yasintorn Wongwoottisaroch</title>
   <link rel="stylesheet" href="style.css">
- 
+  <meta charset="UTF-8">
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
+
 <body>
 
 <nav>
@@ -48,16 +56,16 @@
 
 <script>
 const pairs = [
-  { symbol: "Aₓ", definition: "Present value of whole life insurance" },
-  { symbol: "äₓ", definition: "Present value of whole life annuity-due" },
-  { symbol: "qₓ", definition: "Probability of death within one year" },
-  { symbol: "pₓ", definition: "Probability of survival for one year" },
-  { symbol: "v", definition: "Discount factor" },
-  { symbol: "eₓ", definition: "Complete expectation of life" },
-  { symbol: "ₙEₓ", definition: "Pure endowment" },
-  { symbol: "Āₓ", definition: "Continuous whole life insurance" },
- { symbol: "\\(\\ddot{a}_{x:\\overline{n}|}\\)", definition: "Temporary n-year annuity-due" },
-  { symbol: "ₙqₓ", definition: "Probability of death within n years" }
+  { symbol: "\\(A_x\\)", definition: "Present value of whole life insurance" },
+  { symbol: "\\(\\ddot{a}_x\\)", definition: "Present value of whole life annuity-due" },
+  { symbol: "\\(q_x\\)", definition: "Probability of death within one year" },
+  { symbol: "\\(p_x\\)", definition: "Probability of survival for one year" },
+  { symbol: "\\(v\\)", definition: "Discount factor" },
+  { symbol: "\\(e_x\\)", definition: "Complete expectation of life" },
+  { symbol: "\\({}_nE_x\\)", definition: "Pure endowment" },
+  { symbol: "\\(\\overline{A}_x\\)", definition: "Continuous whole life insurance" },
+  { symbol: "\\(\\ddot{a}_{x:\\overline{n}|}\\)", definition: "Temporary n-year annuity-due" },
+  { symbol: "\\({}_nq_x\\)", definition: "Probability of death within n years" }
 ];
 
 let selectedSymbol = null;
@@ -95,16 +103,17 @@ function createCard(text, type, match) {
         card.disabled = true;
         selectedSymbol.classList.remove("selected");
         selectedSymbol = null;
+
         score++;
         document.getElementById("score").textContent = score;
         document.getElementById("message").textContent = "Correct.";
 
         if (score === pairs.length) {
-  document.getElementById("message").innerHTML =
-    "🎉 Perfect score!<br><br>" +
-    "Congratulations! You are now actuarially certified*<br>" +
-    "<small>*Not legally recognized by the SOA.</small>";
-}
+          document.getElementById("message").innerHTML =
+            "🎉 Perfect score!<br><br>" +
+            "Congratulations! You are now actuarially certified*<br>" +
+            "<small>*Not legally recognized by the SOA.</small>";
+        }
       } else {
         document.getElementById("message").textContent = "Not quite. Try again.";
       }
@@ -114,9 +123,16 @@ function createCard(text, type, match) {
   return card;
 }
 
+function renderMath() {
+  if (window.MathJax && MathJax.typesetPromise) {
+    MathJax.typesetPromise();
+  }
+}
+
 function loadGame() {
   const symbolsDiv = document.getElementById("symbols");
   const definitionsDiv = document.getElementById("definitions");
+
   symbolsDiv.innerHTML = "";
   definitionsDiv.innerHTML = "";
 
@@ -128,17 +144,8 @@ function loadGame() {
     definitionsDiv.appendChild(createCard(pair.definition, "definition", pair.definition));
   });
 
-  if (window.MathJax) {
-    MathJax.typesetPromise();
-  }
+  renderMath();
 }
-   <meta charset="UTF-8">
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }
-    };
-  </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 function resetGame() {
   score = 0;
@@ -148,7 +155,7 @@ function resetGame() {
   loadGame();
 }
 
-loadGame();
+window.addEventListener("load", loadGame);
 </script>
 
 </body>
