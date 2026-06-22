@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Yasintorn Wongwoottisaroch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <strong>Yasintorn Wongwoottisaroch</strong>
+  <a href="/">Home</a>
+  <a href="cv.html">CV</a>
+  <a href="research.html">Research</a>
+  <a href="teaching.html">Teaching</a>
+  <a href="blog.html">Blog</a>
+  <a href="game.html">Game</a>
+  <a href="weather-game.html">Weather Game</a>
+</nav>
+
+<main>
+  <aside>
+    <img src="profile.jpg" alt="Yasintorn photo">
+    <h2>Yasintorn Wongwoottisaroch</h2>
+    <p>ASA<br>PhD Candidate<br>University of Illinois Urbana-Champaign</p>
+    <p>
+      ✉️ <a href="mailto:yw60@illinois.edu">Email</a><br>
+      🔗 <a href="https://www.linkedin.com/in/yasintorn-wongwoottisaroch-asa-2450071b2/" target="_blank">LinkedIn</a><br>
+      🏛️ <a href="https://asrm.illinois.edu/directory/profile/yw60" target="_blank">UIUC ASRM Profile</a>
+    </p>
+  </aside>
+
+  <section>
+    <h1>Weather Derivative Betting Game</h1>
+
+    <p>
+      You are trading a simplified HDD weather derivative. Guess how cold the season will be,
+      choose your contract size, and see whether your weather bet pays off.
+    </p>
+
+    <h2>Your Decision</h2>
+
+    <label>Expected HDD:</label><br>
+    <input id="expectedHDD" type="number" value="120"><br><br>
+
+    <label>Strike HDD:</label><br>
+    <input id="strike" type="number" value="100"><br><br>
+
+    <label>Number of Contracts:</label><br>
+    <input id="contracts" type="number" value="5"><br><br>
+
+    <label>Tick Value ($ per HDD per contract):</label><br>
+    <input id="tick" type="number" value="10"><br><br>
+
+    <label>Weather Volatility:</label><br>
+    <select id="volatility">
+      <option value="15">Low</option>
+      <option value="30" selected>Medium</option>
+      <option value="50">High</option>
+    </select><br><br>
+
+    <button onclick="simulateGame()">Simulate Season</button>
+    <button onclick="resetGame()">Reset</button>
+
+    <h2>Result</h2>
+    <div id="result" class="weather-result">
+      Enter your assumptions and simulate the season.
+    </div>
+  </section>
+</main>
+
+<script>
+function randomNormal(mean, sd) {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+  return mean + sd * z;
+}
+
+function simulateGame() {
+  const expectedHDD = Number(document.getElementById("expectedHDD").value);
+  const strike = Number(document.getElementById("strike").value);
+  const contracts = Number(document.getElementById("contracts").value);
+  const tick = Number(document.getElementById("tick").value);
+  const volatility = Number(document.getElementById("volatility").value);
+
+  const actualHDD = Math.max(0, Math.round(randomNormal(expectedHDD, volatility)));
+
+  const payoff = Math.max(actualHDD - strike, 0) * tick * contracts;
+
+  const premium = Math.max(expectedHDD - strike, 0) * tick * contracts * 0.85;
+
+  const profit = payoff - premium;
+
+  let verdict = "";
+  if (profit > 0) {
+    verdict = "You made money. The winter was colder than the market expected.";
+  } else if (profit < 0) {
+    verdict = "You lost money. The contract did not pay enough to cover the premium.";
+  } else {
+    verdict = "You broke even. The actuarial gods are neutral today.";
+  }
+
+  document.getElementById("result").innerHTML = `
+    <p><strong>Expected HDD:</strong> ${expectedHDD}</p>
+    <p><strong>Actual Simulated HDD:</strong> ${actualHDD}</p>
+    <p><strong>Strike:</strong> ${strike}</p>
+    <p><strong>Contracts:</strong> ${contracts}</p>
+    <p><strong>Premium Paid:</strong> $${premium.toFixed(2)}</p>
+    <p><strong>Derivative Payoff:</strong> $${payoff.toFixed(2)}</p>
+    <p><strong>Trading Profit:</strong> $${profit.toFixed(2)}</p>
+    <h3>${verdict}</h3>
+  `;
+}
+
+function resetGame() {
+  document.getElementById("expectedHDD").value = 120;
+  document.getElementById("strike").value = 100;
+  document.getElementById("contracts").value = 5;
+  document.getElementById("tick").value = 10;
+  document.getElementById("volatility").value = 30;
+  document.getElementById("result").innerHTML =
+    "Enter your assumptions and simulate the season.";
+}
+</script>
+
+</body>
+</html>
