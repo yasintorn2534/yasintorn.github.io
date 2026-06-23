@@ -114,7 +114,7 @@ function getInputs() {
 }
 
 function calculatePremium(x) {
-  return Math.max(x.expectedHDD - x.strike, 0) * x.tick * x.contracts * 0.85;
+  return return Math.max(x.expectedHDD - x.strike,0)* x.tick* x.contracts* 1.25;;
 }
 
 function updatePremium() {
@@ -147,13 +147,13 @@ function simulateYear() {
 
   const actualHDD = Math.max(0, Math.round(randomNormal(x.expectedHDD, x.volatility)));
 
-  const demand = Math.max(0, Math.round(500 - 5 * x.price + 2 * (actualHDD - 100)));
+  const demand = Math.max(0,Math.round(250- 3*x.price+ 1.5*(actualHDD-100)));
   const unitsSold = Math.min(x.production, demand);
   const unsoldUnits = Math.max(x.production - unitsSold, 0);
 
   const revenue = x.price * unitsSold;
 
-  const operatingCost = 500 + 5 * x.production + 0.01 * x.production * x.production;
+  const operatingCost =2000+ 20*x.production+ 0.05*x.production*x.production;
 
   const payoff = Math.max(actualHDD - x.strike, 0) * x.tick * x.contracts;
 
