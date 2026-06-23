@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Yasintorn Wongwoottisaroch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <strong>Yasintorn Wongwoottisaroch</strong>
+  <a href="/">Home</a>
+  <a href="cv.html">CV</a>
+  <a href="research.html">Research</a>
+  <a href="teaching.html">Teaching</a>
+  <a href="blog.html">Blog</a>
+  <a href="game.html">Game</a>
+</nav>
+
+<main>
+  <aside>
+    <img src="profile.jpg" alt="Yasintorn photo">
+    <h2>Yasintorn Wongwoottisaroch</h2>
+    <p>ASA<br>PhD Candidate<br>University of Illinois Urbana-Champaign</p>
+    <p>
+      ✉️ <a href="mailto:yw60@illinois.edu">Email</a><br>
+      🔗 <a href="https://www.linkedin.com/in/yasintorn-wongwoottisaroch-asa-2450071b2/" target="_blank">LinkedIn</a><br>
+      🏛️ <a href="https://asrm.illinois.edu/directory/profile/yw60" target="_blank">UIUC ASRM Profile</a>
+    </p>
+  </aside>
+
+  <section>
+    <h1>Energy Company Management Simulator</h1>
+
+    <p>
+      You are an analyst at an energy company. Start with $10,000, choose production,
+      pricing, and weather hedging strategy, then see whether your company survives.
+    </p>
+
+    <h2>Company Status</h2>
+    <p><strong>Year:</strong> <span id="year">1</span></p>
+    <p><strong>Current Cash:</strong> $<span id="cash">10000.00</span></p>
+    <p><strong>Goal:</strong> Reach $100,000. Bankruptcy occurs if cash falls to $0 or below.</p>
+
+    <h2>Business Plan</h2>
+
+    <label>Planned Production Q:</label><br>
+    <input id="production" type="number" value="200"><br><br>
+
+    <label>Sales Price per Unit:</label><br>
+    <input id="price" type="number" value="50"><br><br>
+
+    <h2>Weather Expectation</h2>
+
+    <label>Expected HDD:</label><br>
+    <input id="expectedHDD" type="number" value="120"><br><br>
+
+    <label>Weather Volatility:</label><br>
+    <select id="volatility">
+      <option value="15">Low</option>
+      <option value="30" selected>Medium</option>
+      <option value="50">High</option>
+    </select><br><br>
+
+    <h2>Hedge Design</h2>
+
+    <label>Strike HDD:</label><br>
+    <input id="strike" type="number" value="100" oninput="updatePremium()"><br><br>
+
+    <label>Tick Value ($ per HDD per contract):</label><br>
+    <input id="tick" type="number" value="10" oninput="updatePremium()"><br><br>
+
+    <label>Number of Contracts:</label><br>
+    <input id="contracts" type="number" value="5" oninput="updatePremium()"><br><br>
+
+    <div class="weather-result">
+      <p><strong>Estimated Hedge Premium:</strong> $<span id="premiumPreview">0.00</span></p>
+      <p><strong>Cash After Buying Hedge:</strong> $<span id="cashAfterPremium">10000.00</span></p>
+      <p id="budgetWarning"></p>
+    </div>
+
+    <br>
+    <button id="simulateButton" onclick="simulateYear()">Simulate Year</button>
+    <button onclick="resetGame()">Restart Company</button>
+
+    <h2>Year-End Report</h2>
+    <div id="result" class="weather-result">
+      Make your decisions and simulate the year.
+    </div>
+  </section>
+</main>
+
+<script>
+let cash = 10000;
+let year = 1;
+
+function randomNormal(mean, sd) {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+  return mean + sd * z;
+}
+
+function getInputs() {
+  return {
+    production: Number(document.getElementById("production").value),
+    price: Number(document.getElementById("price").value),
+    expectedHDD: Number(document.getElementById("expectedHDD").value),
+    volatility: Number(document.getElementById("volatility").value),
+    strike: Number(document.getElementById("strike").value),
+    tick: Number(document.getElementById("tick").value),
+    contracts: Number(document.getElementById("contracts").value)
+  };
+}
+
+function calculatePremium(x) {
+  return Math.max(x.expectedHDD - x.strike, 0) * x.tick * x.contracts * 0.85;
+}
+
+function updatePremium() {
+  const x = getInputs();
+  const premium = calculatePremium(x);
+  const cashAfter = cash - premium;
+
+  document.getElementById("premiumPreview").textContent = premium.toFixed(2);
+  document.getElementById("cashAfterPremium").textContent = cashAfter.toFixed(2);
+
+  if (cashAfter < 0) {
+    document.getElementById("budgetWarning").textContent =
+      "Not enough cash to buy this hedge. Reduce contracts, tick value, or choose a higher strike.";
+    document.getElementById("simulateButton").disabled = true;
+  } else {
+    document.getElementById("budgetWarning").textContent = "";
+    document.getElementById("simulateButton").disabled = false;
+  }
+}
+
+function simulateYear() {
+  const x = getInputs();
+  const premium = calculatePremium(x);
+
+  if (premium > cash) {
+    document.getElementById("result").innerHTML =
+      "<h3>Not enough cash to buy this hedge.</h3>";
+    return;
+  }
+
+  const actualHDD = Math.max(0, Math.round(randomNormal(x.expectedHDD, x.volatility)));
+
+  const demand = Math.max(0, Math.round(500 - 5 * x.price + 2 * (actualHDD - 100)));
+  const unitsSold = Math.min(x.production, demand);
+  const unsoldUnits = Math.max(x.production - unitsSold, 0);
+
+  const revenue = x.price * unitsSold;
+
+  const operatingCost = 500 + 5 * x.production + 0.01 * x.production * x.production;
+
+  const payoff = Math.max(actualHDD - x.strike, 0) * x.tick * x.contracts;
+
+  const profit = revenue - operatingCost - premium + payoff;
+
+  const beginningCash = cash;
+  cash += profit;
+
+  let status = "";
+  if (cash <= 0) {
+    status = "💀 GAME OVER: Your company went bankrupt.";
+    document.getElementById("simulateButton").disabled = true;
+  } else if (cash >= 100000) {
+    status = "🏆 YOU WIN: Weather Risk Legend. Your company reached $100,000.";
+    document.getElementById("simulateButton").disabled = true;
+  } else if (cash >= 50000) {
+    status = "⚡ Energy Executive. Keep going.";
+  } else if (cash >= 25000) {
+    status = "🏭 Regional Utility. Your company is growing.";
+  } else {
+    status = "📊 Survived another year. Adjust your strategy and continue.";
+  }
+
+  document.getElementById("result").innerHTML = `
+    <h3>Year ${year} Report</h3>
+
+    <p><strong>Beginning Cash:</strong> $${beginningCash.toFixed(2)}</p>
+
+    <h3>Weather and Demand</h3>
+    <p><strong>Expected HDD:</strong> ${x.expectedHDD}</p>
+    <p><strong>Actual HDD:</strong> ${actualHDD}</p>
+    <p><strong>Demand:</strong> ${demand} units</p>
+    <p><strong>Production:</strong> ${x.production} units</p>
+    <p><strong>Units Sold:</strong> ${unitsSold} units</p>
+    <p><strong>Unsold Units:</strong> ${unsoldUnits} units</p>
+
+    <h3>Financial Result</h3>
+    <p><strong>Revenue:</strong> $${revenue.toFixed(2)}</p>
+    <p><strong>Operating Cost:</strong> -$${operatingCost.toFixed(2)}</p>
+    <p><strong>Hedge Premium:</strong> -$${premium.toFixed(2)}</p>
+    <p><strong>Hedge Payoff:</strong> $${payoff.toFixed(2)}</p>
+    <p><strong>Net Profit:</strong> $${profit.toFixed(2)}</p>
+    <p><strong>Ending Cash:</strong> $${cash.toFixed(2)}</p>
+
+    <h3>${status}</h3>
+  `;
+
+  if (cash > 0 && cash < 100000) {
+    year += 1;
+  }
+
+  document.getElementById("year").textContent = year;
+  document.getElementById("cash").textContent = cash.toFixed(2);
+  updatePremium();
+}
+
+function resetGame() {
+  cash = 10000;
+  year = 1;
+
+  document.getElementById("production").value = 200;
+  document.getElementById("price").value = 50;
+  document.getElementById("expectedHDD").value = 120;
+  document.getElementById("volatility").value = 30;
+  document.getElementById("strike").value = 100;
+  document.getElementById("tick").value = 10;
+  document.getElementById("contracts").value = 5;
+
+  document.getElementById("year").textContent = year;
+  document.getElementById("cash").textContent = cash.toFixed(2);
+  document.getElementById("simulateButton").disabled = false;
+  document.getElementById("result").innerHTML =
+    "Make your decisions and simulate the year.";
+
+  updatePremium();
+}
+
+updatePremium();
+</script>
+
+</body>
+</html>
