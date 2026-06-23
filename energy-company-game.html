@@ -51,7 +51,7 @@
       </ul>
 
       <h3>Profit Logic</h3>
-      <p>Profit = Revenue − Operating Cost − Hedge Premium + Hedge Payoff</p>
+      <p>Profit = Revenue − Operating Cost − Weather Cost + Hedge Premium + Hedge Payoff</p>
 
       <h3>Suggested First Strategy</h3>
       <ul>
@@ -223,8 +223,9 @@ const actualHDD = Math.max(
 
   const revenue = x.price * unitsSold;
   const operatingCost = 2000 + 20 * x.production + 0.05 * x.production * x.production;
+  const weatherCost = Math.max(actualHDD - 120, 0) * 15;
   const payoff = Math.max(actualHDD - x.strike, 0) * x.tick * x.contracts;
-  const profit = revenue - operatingCost - premium + payoff;
+  const profit = revenue - operatingCost - weatherCost - premium + payoff;
 
   cash += profit;
 
@@ -262,6 +263,7 @@ const actualHDD = Math.max(
     <h3>Financial Result</h3>
     <p><strong>Revenue:</strong> $${revenue.toFixed(2)}</p>
     <p><strong>Operating Cost:</strong> -$${operatingCost.toFixed(2)}</p>
+    <p><strong>Weather Cost:</strong> -$${weatherCost.toFixed(2)}</p>
     <p><strong>Hedge Premium:</strong> -$${premium.toFixed(2)}</p>
     <p><strong>Hedge Payoff:</strong> $${payoff.toFixed(2)}</p>
     <p><strong>Net Profit:</strong> $${profit.toFixed(2)}</p>
