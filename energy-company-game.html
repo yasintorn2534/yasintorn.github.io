@@ -226,7 +226,7 @@ const actualHDD = Math.max(
   )
 );
 
-  const rawDemand = 100 - * x.price + 2 * (actualHDD - 100);
+  const rawDemand = 100 - 1.5 * x.price + 2 * (actualHDD - 100);
   const demand = Math.round(Math.max(30, rawDemand));
 
   const unitsSold = Math.min(x.production, demand);
