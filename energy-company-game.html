@@ -277,9 +277,7 @@ function simulateYear() {
     year += 1;
   }
 
-  if (cash <= 0 || cash >= 25000) {
-  document.getElementById("simulateButton").disabled = true;
-}
+
 
   document.getElementById("year").textContent = year;
   document.getElementById("cash").textContent = cash.toFixed(2);
