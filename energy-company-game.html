@@ -58,7 +58,6 @@
         <li>Production: 150</li>
         <li>Sales Price: 50</li>
         <li>Expected HDD: 120</li>
-        <li>Weather Volatility: Medium</li>
         <li>Strike HDD: 120</li>
         <li>Tick Value: 5</li>
         <li>Contracts: 3</li>
@@ -79,19 +78,10 @@
     <label>Sales Price per Unit:</label><br>
     <input id="price" type="number" value="50" oninput="updatePremium()"><br><br>
 
-    <h2>Weather Expectation</h2>
+    <h2>Hedge Design</h2>
 
     <label>Expected HDD:</label><br>
     <input id="expectedHDD" type="number" value="120" oninput="updatePremium()"><br><br>
-
-    <label>Weather Volatility:</label><br>
-    <select id="volatility">
-      <option value="15">Low</option>
-      <option value="30" selected>Medium</option>
-      <option value="50">High</option>
-    </select><br><br>
-
-    <h2>Hedge Design</h2>
 
     <label>Strike HDD:</label><br>
     <input id="strike" type="number" value="120" oninput="updatePremium()"><br><br>
@@ -152,7 +142,6 @@ function getInputs() {
     production: Number(document.getElementById("production").value),
     price: Number(document.getElementById("price").value),
     expectedHDD: Number(document.getElementById("expectedHDD").value),
-    volatility: Number(document.getElementById("volatility").value),
     strike: Number(document.getElementById("strike").value),
     tick: Number(document.getElementById("tick").value),
     contracts: Number(document.getElementById("contracts").value)
@@ -307,7 +296,6 @@ function resetGame() {
   document.getElementById("production").value = 150;
   document.getElementById("price").value = 50;
   document.getElementById("expectedHDD").value = 120;
-  document.getElementById("volatility").value = 30;
   document.getElementById("strike").value = 120;
   document.getElementById("tick").value = 5;
   document.getElementById("contracts").value = 3;
