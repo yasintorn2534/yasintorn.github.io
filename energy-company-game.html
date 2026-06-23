@@ -90,15 +90,15 @@
     <h2>Business Plan</h2>
 
     <label>Planned Production Q:</label><br>
-    <input id="production" type="number" value="200"><br><br>
+    <input id="production" type="number" value="0"><br><br>
 
     <label>Sales Price per Unit:</label><br>
-    <input id="price" type="number" value="50"><br><br>
+    <input id="price" type="number" value="0"><br><br>
 
     <h2>Weather Expectation</h2>
 
     <label>Expected HDD:</label><br>
-    <input id="expectedHDD" type="number" value="120"><br><br>
+    <input id="expectedHDD" type="number" value="0"><br><br>
 
     <label>Weather Volatility:</label><br>
     <select id="volatility">
@@ -110,13 +110,13 @@
     <h2>Hedge Design</h2>
 
     <label>Strike HDD:</label><br>
-    <input id="strike" type="number" value="100" oninput="updatePremium()"><br><br>
+    <input id="strike" type="number" value="0" oninput="updatePremium()"><br><br>
 
     <label>Tick Value ($ per HDD per contract):</label><br>
-    <input id="tick" type="number" value="10" oninput="updatePremium()"><br><br>
+    <input id="tick" type="number" value="0" oninput="updatePremium()"><br><br>
 
     <label>Number of Contracts:</label><br>
-    <input id="contracts" type="number" value="5" oninput="updatePremium()"><br><br>
+    <input id="contracts" type="number" value="0" oninput="updatePremium()"><br><br>
 
     <div class="weather-result">
       <p><strong>Estimated Hedge Premium:</strong> $<span id="premiumPreview">0.00</span></p>
