@@ -209,17 +209,20 @@ function simulateYear() {
   const currentYear = year;
   const beginningCash = cash;
 
-  let range;
+  const regimes = [
+  { name: "Low", range: 40 },
+  { name: "Medium", range: 70 },
+  { name: "High", range: 100 }
+];
 
-if (x.volatility == 15) range = 10;      // Low
-if (x.volatility == 30) range = 20;      // Medium
-if (x.volatility == 50) range = 40;      // High
+const regime = regimes[Math.floor(Math.random() * regimes.length)];
+
+const baseHDD = 120;
 
 const actualHDD = Math.max(
   0,
   Math.round(
-    x.expectedHDD +
-    (Math.random() * 2 * range - range)
+    baseHDD + (Math.random() * 2 * regime.range - regime.range)
   )
 );
 
@@ -261,6 +264,7 @@ const actualHDD = Math.max(
     <h3>Weather and Demand</h3>
     <p><strong>Expected HDD:</strong> ${x.expectedHDD}</p>
     <p><strong>Actual HDD:</strong> ${actualHDD}</p>
+    <p><strong>Weather Volatility Regime:</strong> ${regime.name}</p>
     <p><strong>Demand:</strong> ${demand} units</p>
     <p><strong>Production:</strong> ${x.production} units</p>
     <p><strong>Units Sold:</strong> ${unitsSold} units</p>
