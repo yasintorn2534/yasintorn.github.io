@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Yasintorn Wongwoottisaroch</title>
+  <title>Energy Company Simulator - Yasintorn Wongwoottisaroch</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -36,61 +36,51 @@
       pricing, and weather hedging strategy, then see whether your company survives.
     </p>
 
-      <div class="weather-result">
-  <h2>How the Simulator Works</h2>
-   <h3>Market Information</h3>    
+    <div class="weather-result">
+      <h2>How the Simulator Works</h2>
 
-  <ul>
-    <li>Average HDD in this simplified market is around 120.</li>
-    <li>Typical demand usually ranges from about 80 to 250 units.</li>
-    <li>Higher selling price reduces demand.</li>
-    <li>Colder winters mean higher HDD, which increases energy demand.</li>
-    <li>Unsold production has no value at year-end.</li>
-    <li>Lower strike HDD contracts cost more but pay more often.</li>
-    <li>Higher strike HDD contracts are cheaper but only pay in very cold years.</li>
-    <li>The goal is to grow your company from $10,000 to $25,000.</li>
-  </ul>
+      <ul>
+        <li>Average HDD in this simplified market is around 120.</li>
+        <li>Higher sales price reduces demand.</li>
+        <li>Colder winters mean higher HDD, which increases energy demand.</li>
+        <li>Unsold production has no value at year-end.</li>
+        <li>Lower strike HDD contracts cost more but pay more often.</li>
+        <li>Higher strike HDD contracts are cheaper but only pay in very cold years.</li>
+        <li>The goal is to grow your company from $10,000 to $25,000.</li>
+      </ul>
 
-  <h3>Profit Logic</h3>
-  <p>
-    Profit = Revenue − Operating Cost − Hedge Premium + Hedge Payoff
-  </p>
+      <h3>Profit Logic</h3>
+      <p>Profit = Revenue − Operating Cost − Hedge Premium + Hedge Payoff</p>
 
-  <h3>Suggested First Strategy</h3>
+      <h3>Suggested First Strategy</h3>
+      <ul>
+        <li>Production: 150</li>
+        <li>Sales Price: 50</li>
+        <li>Expected HDD: 120</li>
+        <li>Weather Volatility: Medium</li>
+        <li>Strike HDD: 120</li>
+        <li>Tick Value: 5</li>
+        <li>Contracts: 3</li>
+      </ul>
+    </div>
 
-  <ul>
-    <li>Production: 150</li>
-    <li>Sales Price: 50</li>
-    <li>Expected HDD: 120</li>
-    <li>Weather Volatility: Medium</li>
-    <li>Strike HDD: 120</li>
-    <li>Tick Value: 5</li>
-    <li>Contracts: 3</li>
-  </ul>
-
-      <p>  Hint: A conservative first strategy is to produce around 150 units,
-    set price around 50, and avoid spending too much cash on hedging.
-    </p>
-</div>
-
-  
     <h2>Company Status</h2>
     <p><strong>Year:</strong> <span id="year">1</span></p>
-    <p><strong>Current Cash:</strong> $<span id="cash">10,000.00</span></p>
+    <p><strong>Current Cash:</strong> $<span id="cash">10000.00</span></p>
     <p><strong>Goal:</strong> Reach $25,000. Bankruptcy occurs if cash falls to $0 or below.</p>
 
     <h2>Business Plan</h2>
 
     <label>Planned Production Q:</label><br>
-    <input id="production" type="number" value="0"><br><br>
+    <input id="production" type="number" value="150" oninput="updatePremium()"><br><br>
 
     <label>Sales Price per Unit:</label><br>
-    <input id="price" type="number" value="0"><br><br>
+    <input id="price" type="number" value="50" oninput="updatePremium()"><br><br>
 
     <h2>Weather Expectation</h2>
 
     <label>Expected HDD:</label><br>
-    <input id="expectedHDD" type="number" value="0"><br><br>
+    <input id="expectedHDD" type="number" value="120" oninput="updatePremium()"><br><br>
 
     <label>Weather Volatility:</label><br>
     <select id="volatility">
@@ -102,13 +92,13 @@
     <h2>Hedge Design</h2>
 
     <label>Strike HDD:</label><br>
-    <input id="strike" type="number" value="0" oninput="updatePremium()"><br><br>
+    <input id="strike" type="number" value="120" oninput="updatePremium()"><br><br>
 
     <label>Tick Value ($ per HDD per contract):</label><br>
-    <input id="tick" type="number" value="0" oninput="updatePremium()"><br><br>
+    <input id="tick" type="number" value="5" oninput="updatePremium()"><br><br>
 
     <label>Number of Contracts:</label><br>
-    <input id="contracts" type="number" value="0" oninput="updatePremium()"><br><br>
+    <input id="contracts" type="number" value="3" oninput="updatePremium()"><br><br>
 
     <div class="weather-result">
       <p><strong>Estimated Hedge Premium:</strong> $<span id="premiumPreview">0.00</span></p>
@@ -126,32 +116,32 @@
     </div>
 
     <h2>Company History</h2>
-<table id="historyTable">
-  <thead>
-    <tr>
-      <th>Year</th>
-      <th>HDD</th>
-      <th>Demand</th>
-      <th>Units Sold</th>
-      <th>Profit</th>
-      <th>Ending Cash</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
-    
+    <table id="historyTable">
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>HDD</th>
+          <th>Demand</th>
+          <th>Units Sold</th>
+          <th>Profit</th>
+          <th>Ending Cash</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </section>
 </main>
 
 <script>
 let cash = 10000;
 let year = 1;
+const targetCash = 25000;
 
 function randomNormal(mean, sd) {
   let u = 0, v = 0;
   while (u === 0) u = Math.random();
   while (v === 0) v = Math.random();
-  let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+  const z = Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
   return mean + sd * z;
 }
 
@@ -170,13 +160,18 @@ function getInputs() {
 function calculatePremium(x) {
   const intrinsic = Math.max(x.expectedHDD - x.strike, 0);
   const gap = Math.max(x.strike - x.expectedHDD, 0);
-
   const timeValue = 8 * Math.exp(-gap / 30);
-
   return (intrinsic + timeValue) * x.tick * x.contracts * 1.1;
 }
 
 function updatePremium() {
+  const button = document.getElementById("simulateButton");
+
+  if (cash <= 0.001 || cash >= targetCash) {
+    button.disabled = true;
+    return;
+  }
+
   const x = getInputs();
   const premium = calculatePremium(x);
   const cashAfter = cash - premium;
@@ -187,14 +182,19 @@ function updatePremium() {
   if (cashAfter < 0) {
     document.getElementById("budgetWarning").textContent =
       "Not enough cash to buy this hedge. Reduce contracts, tick value, or choose a higher strike.";
-    document.getElementById("simulateButton").disabled = true;
+    button.disabled = true;
   } else {
     document.getElementById("budgetWarning").textContent = "";
-    document.getElementById("simulateButton").disabled = false;
+    button.disabled = false;
   }
 }
 
 function simulateYear() {
+  if (cash <= 0.001 || cash >= targetCash) {
+    document.getElementById("simulateButton").disabled = true;
+    return;
+  }
+
   const x = getInputs();
   const premium = calculatePremium(x);
 
@@ -204,30 +204,31 @@ function simulateYear() {
     return;
   }
 
+  const currentYear = year;
+  const beginningCash = cash;
+
   const actualHDD = Math.max(0, Math.round(randomNormal(x.expectedHDD, x.volatility)));
 
-  const rawDemand =  300 - 2 * x.price + 2.5 * (actualHDD - 100);
+  const rawDemand = 300 - 2 * x.price + 2.5 * (actualHDD - 100);
   const demand = Math.round(Math.max(50, rawDemand));
+
   const unitsSold = Math.min(x.production, demand);
   const unsoldUnits = Math.max(x.production - unitsSold, 0);
 
   const revenue = x.price * unitsSold;
-
-  const operatingCost =2000+ 20*x.production+ 0.05*x.production*x.production;
-
+  const operatingCost = 2000 + 20 * x.production + 0.05 * x.production * x.production;
   const payoff = Math.max(actualHDD - x.strike, 0) * x.tick * x.contracts;
-
   const profit = revenue - operatingCost - premium + payoff;
 
-  const beginningCash = cash;
   cash += profit;
 
   let status = "";
-  if (cash <= 0) {
+
+  if (cash <= 0.001) {
     cash = 0;
     status = "💀 GAME OVER: Your company went bankrupt.";
     document.getElementById("simulateButton").disabled = true;
-  } else if (cash >= 25000) {
+  } else if (cash >= targetCash) {
     status = "🏆 YOU WIN: Weather Risk Legend. Your company reached $25,000.";
     document.getElementById("simulateButton").disabled = true;
   } else if (cash >= 20000) {
@@ -238,8 +239,8 @@ function simulateYear() {
     status = "📊 Survived another year. Adjust your strategy and continue.";
   }
 
-    document.getElementById("result").innerHTML = `
-    <h3>Year ${year} Report</h3>
+  document.getElementById("result").innerHTML = `
+    <h3>Year ${currentYear} Report</h3>
 
     <p><strong>Beginning Cash:</strong> $${beginningCash.toFixed(2)}</p>
 
@@ -263,9 +264,8 @@ function simulateYear() {
   `;
 
   const row = document.querySelector("#historyTable tbody").insertRow();
-
   row.innerHTML = `
-    <td>${year}</td>
+    <td>${currentYear}</td>
     <td>${actualHDD}</td>
     <td>${demand}</td>
     <td>${unitsSold}</td>
@@ -273,14 +273,34 @@ function simulateYear() {
     <td>$${cash.toFixed(2)}</td>
   `;
 
-  if (cash > 0.001 && cash < 25000) {
+  if (cash > 0.001 && cash < targetCash) {
     year += 1;
   }
 
+  document.getElementById("year").textContent = year;
+  document.getElementById("cash").textContent = cash.toFixed(2);
+  updatePremium();
+}
 
+function resetGame() {
+  cash = 10000;
+  year = 1;
+
+  document.getElementById("production").value = 150;
+  document.getElementById("price").value = 50;
+  document.getElementById("expectedHDD").value = 120;
+  document.getElementById("volatility").value = 30;
+  document.getElementById("strike").value = 120;
+  document.getElementById("tick").value = 5;
+  document.getElementById("contracts").value = 3;
 
   document.getElementById("year").textContent = year;
   document.getElementById("cash").textContent = cash.toFixed(2);
+  document.getElementById("result").innerHTML =
+    "Make your decisions and simulate the year.";
+  document.querySelector("#historyTable tbody").innerHTML = "";
+  document.getElementById("simulateButton").disabled = false;
+
   updatePremium();
 }
 
