@@ -237,7 +237,7 @@ function simulateYear() {
     status = "📊 Survived another year. Adjust your strategy and continue.";
   }
 
-  document.getElementById("result").innerHTML = `
+    document.getElementById("result").innerHTML = `
     <h3>Year ${year} Report</h3>
 
     <p><strong>Beginning Cash:</strong> $${beginningCash.toFixed(2)}</p>
@@ -260,17 +260,18 @@ function simulateYear() {
 
     <h3>${status}</h3>
   `;
-  
-const row = document.querySelector("#historyTable tbody").insertRow();
 
-row.innerHTML = `
-  <td>${year}</td>
-  <td>${actualHDD}</td>
-  <td>${demand}</td>
-  <td>${unitsSold}</td>
-  <td>$${profit.toFixed(2)}</td>
-  <td>$${cash.toFixed(2)}</td>
-`;
+  const row = document.querySelector("#historyTable tbody").insertRow();
+
+  row.innerHTML = `
+    <td>${year}</td>
+    <td>${actualHDD}</td>
+    <td>${demand}</td>
+    <td>${unitsSold}</td>
+    <td>$${profit.toFixed(2)}</td>
+    <td>$${cash.toFixed(2)}</td>
+  `;
+
   if (cash > 0 && cash < 25000) {
     year += 1;
   }
@@ -278,28 +279,6 @@ row.innerHTML = `
   document.getElementById("year").textContent = year;
   document.getElementById("cash").textContent = cash.toFixed(2);
   updatePremium();
-}
-
-function resetGame() {
-  cash = 10000;
-  year = 1;
-
-  document.getElementById("production").value = 0;
-  document.getElementById("price").value = 0;
-  document.getElementById("expectedHDD").value = 0;
-  document.getElementById("volatility").value = 30;
-  document.getElementById("strike").value = 0;
-  document.getElementById("tick").value = 0;
-  document.getElementById("contracts").value = 0;
-
-  document.getElementById("year").textContent = year;
-  document.getElementById("cash").textContent = cash.toFixed(2);
-  document.getElementById("simulateButton").disabled = false;
-  document.getElementById("result").innerHTML =
-    "Make your decisions and simulate the year.";
-
-  updatePremium();
-  document.querySelector("#historyTable tbody").innerHTML = "";
 }
 
 updatePremium();
