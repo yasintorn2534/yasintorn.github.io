@@ -114,7 +114,7 @@ function getInputs() {
 }
 
 function calculatePremium(x) {
-  return Math.max(x.expectedHDD - x.strike,0)* x.tick* x.contracts* 1.25;
+  return 5 + (Math.max(x.expectedHDD - x.strike,0))* x.tick* x.contracts* 1.25;
 }
 
 function updatePremium() {
