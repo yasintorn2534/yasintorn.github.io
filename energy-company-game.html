@@ -152,7 +152,8 @@ function simulateYear() {
 
   const actualHDD = Math.max(0, Math.round(randomNormal(x.expectedHDD, x.volatility)));
 
-  const demand = Math.max(0,Math.round(250- 3*x.price+ 1.5*(actualHDD-100)));
+  const rawDemand =  300 - 2 * x.price + 2.5 * (actualHDD - 100);
+  const demand = Math.round(Math.max(50, rawDemand));
   const unitsSold = Math.min(x.production, demand);
   const unsoldUnits = Math.max(x.production - unitsSold, 0);
 
