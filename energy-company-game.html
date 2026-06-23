@@ -224,6 +224,7 @@ function simulateYear() {
 
   let status = "";
   if (cash <= 0) {
+    cash = 0;
     status = "💀 GAME OVER: Your company went bankrupt.";
     document.getElementById("simulateButton").disabled = true;
   } else if (cash >= 25000) {
@@ -275,6 +276,10 @@ function simulateYear() {
   if (cash > 0.001 && cash < 25000) {
     year += 1;
   }
+
+  if (cash <= 0 || cash >= 25000) {
+  document.getElementById("simulateButton").disabled = true;
+}
 
   document.getElementById("year").textContent = year;
   document.getElementById("cash").textContent = cash.toFixed(2);
