@@ -41,6 +41,35 @@
     <p><strong>Current Cash:</strong> $<span id="cash">10,000.00</span></p>
     <p><strong>Goal:</strong> Reach $25,000. Bankruptcy occurs if cash falls to $0 or below.</p>
 
+    <div class="weather-result">
+  <h2>How the Simulator Works</h2>
+
+  <ul>
+    <li>Higher selling price reduces demand.</li>
+    <li>Colder winters mean higher HDD, which increases energy demand.</li>
+    <li>Unsold production has no value at year-end.</li>
+    <li>Lower strike HDD contracts cost more but pay more often.</li>
+    <li>Higher strike HDD contracts are cheaper but only pay in very cold years.</li>
+    <li>The goal is to grow your company from $10,000 to $25,000.</li>
+  </ul>
+
+  <h3>Profit Logic</h3>
+  <p>
+    Profit = Revenue − Operating Cost − Hedge Premium + Hedge Payoff
+  </p>
+
+  <h3>Suggested First Strategy</h3>
+  <ul>
+    <li>Production: 150</li>
+    <li>Sales Price: 50</li>
+    <li>Expected HDD: 120</li>
+    <li>Weather Volatility: Medium</li>
+    <li>Strike HDD: 120</li>
+    <li>Tick Value: 5</li>
+    <li>Contracts: 3</li>
+  </ul>
+</div>
+
     <h2>Business Plan</h2>
 
     <label>Planned Production Q:</label><br>
