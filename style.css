@@ -121,3 +121,26 @@ th, td {
 th {
   background: #f2f2f2;
 }
+#historyTable {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 15px;
+  font-size: 15px;
+}
+
+#historyTable th,
+#historyTable td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: right;
+}
+
+#historyTable th {
+  background: #f2f2f2;
+  font-weight: bold;
+}
+
+#historyTable th:first-child,
+#historyTable td:first-child {
+  text-align: center;
+}
