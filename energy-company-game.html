@@ -209,7 +209,19 @@ function simulateYear() {
   const currentYear = year;
   const beginningCash = cash;
 
-  const actualHDD = Math.max(0, Math.round(randomNormal(x.expectedHDD, x.volatility)));
+  let range;
+
+if (x.volatility == 15) range = 10;      // Low
+if (x.volatility == 30) range = 20;      // Medium
+if (x.volatility == 50) range = 40;      // High
+
+const actualHDD = Math.max(
+  0,
+  Math.round(
+    x.expectedHDD +
+    (Math.random() * 2 * range - range)
+  )
+);
 
   const rawDemand = 300 - 2 * x.price + 2.5 * (actualHDD - 100);
   const demand = Math.round(Math.max(50, rawDemand));
