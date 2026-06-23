@@ -36,12 +36,7 @@
       pricing, and weather hedging strategy, then see whether your company survives.
     </p>
 
-    <h2>Company Status</h2>
-    <p><strong>Year:</strong> <span id="year">1</span></p>
-    <p><strong>Current Cash:</strong> $<span id="cash">10,000.00</span></p>
-    <p><strong>Goal:</strong> Reach $25,000. Bankruptcy occurs if cash falls to $0 or below.</p>
-
-    <div class="weather-result">
+      <div class="weather-result">
   <h2>How the Simulator Works</h2>
 
   <ul>
@@ -69,6 +64,28 @@
     <li>Contracts: 3</li>
   </ul>
 </div>
+
+    <div class="weather-result">
+  <h2>Market Information</h2>
+
+  <ul>
+    <li>Average HDD in this simplified market is around 120.</li>
+    <li>Typical demand usually ranges from about 80 to 250 units.</li>
+    <li>Higher sales price reduces demand.</li>
+    <li>Colder winters increase demand.</li>
+    <li>Unsold production has no value at year-end.</li>
+  </ul>
+
+  <p>
+    Hint: A conservative first strategy is to produce around 150 units,
+    set price around 50, and avoid spending too much cash on hedging.
+  </p>
+</div>
+    
+    <h2>Company Status</h2>
+    <p><strong>Year:</strong> <span id="year">1</span></p>
+    <p><strong>Current Cash:</strong> $<span id="cash">10,000.00</span></p>
+    <p><strong>Goal:</strong> Reach $25,000. Bankruptcy occurs if cash falls to $0 or below.</p>
 
     <h2>Business Plan</h2>
 
@@ -115,6 +132,22 @@
     <div id="result" class="weather-result">
       Make your decisions and simulate the year.
     </div>
+
+    <h2>Company History</h2>
+<table id="historyTable">
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>HDD</th>
+      <th>Demand</th>
+      <th>Units Sold</th>
+      <th>Profit</th>
+      <th>Ending Cash</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+    
   </section>
 </main>
 
@@ -177,6 +210,17 @@ function simulateYear() {
     document.getElementById("result").innerHTML =
       "<h3>Not enough cash to buy this hedge.</h3>";
     return;
+const row = document.querySelector("#historyTable tbody").insertRow();
+
+row.innerHTML = `
+  <td>${year}</td>
+  <td>${actualHDD}</td>
+  <td>${demand}</td>
+  <td>${unitsSold}</td>
+  <td>$${profit.toFixed(2)}</td>
+  <td>$${cash.toFixed(2)}</td>
+`;
+    
   }
 
   const actualHDD = Math.max(0, Math.round(randomNormal(x.expectedHDD, x.volatility)));
@@ -264,6 +308,7 @@ function resetGame() {
     "Make your decisions and simulate the year.";
 
   updatePremium();
+  document.querySelector("#historyTable tbody").innerHTML = "";
 }
 
 updatePremium();
