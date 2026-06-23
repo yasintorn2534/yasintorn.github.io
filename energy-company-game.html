@@ -210,17 +210,6 @@ function simulateYear() {
     document.getElementById("result").innerHTML =
       "<h3>Not enough cash to buy this hedge.</h3>";
     return;
-const row = document.querySelector("#historyTable tbody").insertRow();
-
-row.innerHTML = `
-  <td>${year}</td>
-  <td>${actualHDD}</td>
-  <td>${demand}</td>
-  <td>${unitsSold}</td>
-  <td>$${profit.toFixed(2)}</td>
-  <td>$${cash.toFixed(2)}</td>
-`;
-    
   }
 
   const actualHDD = Math.max(0, Math.round(randomNormal(x.expectedHDD, x.volatility)));
@@ -279,8 +268,17 @@ row.innerHTML = `
 
     <h3>${status}</h3>
   `;
+const row = document.querySelector("#historyTable tbody").insertRow();
 
-  if (cash > 0 && cash < 100000) {
+row.innerHTML = `
+  <td>${year}</td>
+  <td>${actualHDD}</td>
+  <td>${demand}</td>
+  <td>${unitsSold}</td>
+  <td>$${profit.toFixed(2)}</td>
+  <td>$${cash.toFixed(2)}</td>
+`;
+  if (cash > 0 && cash < 25000) {
     year += 1;
   }
 
