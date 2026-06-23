@@ -39,7 +39,7 @@
     <h2>Company Status</h2>
     <p><strong>Year:</strong> <span id="year">1</span></p>
     <p><strong>Current Cash:</strong> $<span id="cash">10,000.00</span></p>
-    <p><strong>Goal:</strong> Reach $100,000. Bankruptcy occurs if cash falls to $0 or below.</p>
+    <p><strong>Goal:</strong> Reach $25,000. Bankruptcy occurs if cash falls to $0 or below.</p>
 
     <h2>Business Plan</h2>
 
@@ -172,12 +172,12 @@ function simulateYear() {
   if (cash <= 0) {
     status = "💀 GAME OVER: Your company went bankrupt.";
     document.getElementById("simulateButton").disabled = true;
-  } else if (cash >= 100000) {
+  } else if (cash >= 25000) {
     status = "🏆 YOU WIN: Weather Risk Legend. Your company reached $100,000.";
     document.getElementById("simulateButton").disabled = true;
-  } else if (cash >= 50000) {
+  } else if (cash >= 20000) {
     status = "⚡ Energy Executive. Keep going.";
-  } else if (cash >= 25000) {
+  } else if (cash >= 15000) {
     status = "🏭 Regional Utility. Your company is growing.";
   } else {
     status = "📊 Survived another year. Adjust your strategy and continue.";
