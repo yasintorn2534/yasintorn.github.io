@@ -227,7 +227,7 @@ function simulateYear() {
     status = "💀 GAME OVER: Your company went bankrupt.";
     document.getElementById("simulateButton").disabled = true;
   } else if (cash >= 25000) {
-    status = "🏆 YOU WIN: Weather Risk Legend. Your company reached $100,000.";
+    status = "🏆 YOU WIN: Weather Risk Legend. Your company reached $25,000.";
     document.getElementById("simulateButton").disabled = true;
   } else if (cash >= 20000) {
     status = "⚡ Energy Executive. Keep going.";
@@ -260,11 +260,12 @@ function simulateYear() {
 
     <h3>${status}</h3>
   `;
+  
 const row = document.querySelector("#historyTable tbody").insertRow();
 
 row.innerHTML = `
-  <td>${Year}</td>
-  <td>${HDD}</td>
+  <td>${year}</td>
+  <td>${actualHDD}</td>
   <td>${demand}</td>
   <td>${unitsSold}</td>
   <td>$${profit.toFixed(2)}</td>
